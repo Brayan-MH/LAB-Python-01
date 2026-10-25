@@ -27,8 +27,13 @@ Este laboratorio tiene como objetivo que los estudiantes fortalezcan sus conocim
    - Cada archivo debe contener:
      - La implementación de su solución.  
 
+4. **Restricción de paradigma** ⚠️  
+   - Este laboratorio es de **programación imperativa**. Resuelva todo con variables, asignaciones, condicionales, ciclos (`for`, `while`), `break`/`continue` y funciones que modifiquen estado.
+   - **No está permitido** usar: `lambda`, comprensiones de listas/diccionarios/conjuntos, `map`, `filter`, `functools.reduce`, ni recursión como estrategia principal de solución.
+   - Si el código base de un ejercicio usa alguna de estas construcciones, puede leerla, pero sus soluciones deben escribirse de forma imperativa.
+
 5. **Buenas prácticas**  
-   - Use **nombres de predicados claros y significativos**.
+   - Use **nombres de variables y funciones claros y significativos**.
 ---
 
 ## 🚀 Entrega  
@@ -39,17 +44,19 @@ Este laboratorio tiene como objetivo que los estudiantes fortalezcan sus conocim
 
 ## ✅ Criterios de Evaluación  
 
-1. **Correctitud de las soluciones** (funcionalidad de los predicados).  
+1. **Correctitud de las soluciones** (funcionalidad de los programas).  
 2. **Cumplimiento de la estructura solicitada** (archivos independientes en `lab01/`).  
 3. **Claridad en la codificación** (nombres, comentarios y legibilidad).  
-4. **Uso adecuado de variables** (incluyendo variables anónimas donde corresponda).  
+4. **Uso adecuado de variables y del estado** (inicialización, actualización y alcance).  
+5. **Respeto del paradigma imperativo** (ver restricción en las instrucciones generales).
 
 ---
 
 ## 💡 Recomendaciones  
 
-- Antes de subir sus archivos, **ejecute y verifique** cada consulta en el compilador en linea.  
+- Antes de subir sus archivos, **ejecute y verifique** cada celda en Google Colab.  
 - Mantenga su repositorio organizado y actualizado.
+- Cuando un ejercicio pida "explicar el estado", puede usar una **traza**: una tabla con el valor de cada variable después de cada instrucción o iteración.
 
 ---
 
@@ -313,6 +320,7 @@ else:
 
 ```
 
+* Reescribe la construcción de `tipos` y `habilidades` sin comprensiones de listas: crea listas vacías y llénalas con `for` y `append()`.
 * Agregar condicionales adicionales (if / elif / else):
   - Si el Pokémon tiene más de un tipo, mostrar "Pokémon de tipo mixto".
   - Si el peso es mayor a 100, mostrar "Pokémon de gran tamaño".
@@ -321,6 +329,101 @@ else:
 * Usar for para listar las habilidades una por una
 * Añade algun otro uso que consideres interesante para la respuesta de la api
   
+---
+
+## Ejercicio 4 - Funciones, alcance y efectos sobre el estado
+
+1. **Teniendo en cuenta el siguiente codigo**
+
+```
+contador_global = 0
+
+def incrementar():
+    contador_global = contador_global + 1
+
+incrementar()
+print(contador_global)
+```
+
+* Ejecuta el código. ¿Qué error obtienes? ¿Por qué ocurre?
+* Corrígelo de **dos formas**:
+  - Usando la palabra reservada `global`.
+  - Haciendo que la función reciba el valor y retorne el nuevo valor.
+* Explica cuál de las dos versiones es más fácil de probar y por qué.
+
+2. **Teniendo en cuenta el siguiente codigo**
+
+```
+def agregar_nota(notas, nueva):
+    notas.append(nueva)
+
+def reiniciar(notas):
+    notas = []
+
+mis_notas = [3.5, 4.0]
+agregar_nota(mis_notas, 4.8)
+reiniciar(mis_notas)
+print(mis_notas)
+```
+
+* Antes de ejecutarlo, predice qué se imprime. Luego compruébalo.
+* Explica la diferencia entre **modificar** un objeto mutable (`append`) y **reasignar** la variable local (`notas = []`).
+* Modifica `reiniciar` para que efectivamente vacíe la lista original **sin** usar `return` (pista: `clear()` o `del notas[:]`).
+* Usa la función `id()` para mostrar en qué momentos la variable apunta al mismo objeto y en cuáles no.
+
+3. **Cajero automático con funciones**
+
+Implementa las funciones `consultar(cuenta)`, `depositar(cuenta, monto)` y `retirar(cuenta, monto)` que trabajen sobre el diccionario:
+
+```
+cuenta = {"titular": "Ana", "saldo": 200_000, "movimientos": []}
+```
+
+* Cada operación exitosa debe registrar un movimiento en la lista `movimientos` (tipo, monto, saldo resultante).
+* `retirar` no debe permitir dejar el saldo en negativo; en ese caso imprime un mensaje y no modifica el estado.
+* Construye un menú con `while` que permita elegir la operación hasta que el usuario seleccione "salir".
+* Al salir, muestra el extracto completo de movimientos en forma de tabla.
+
+---
+
+## Ejercicio 5 - Simulaciones y máquinas de estado
+
+
+1. **Juego de adivinanza**
+
+* El programa genera un número aleatorio entre 1 y 100 (`import random`).
+* El usuario tiene máximo 7 intentos; en cada intento el programa responde "mayor" o "menor".
+* Lleva el historial de intentos en una lista y muéstralo al final.
+* Al terminar, pregunta si desea jugar otra vez y lleva un marcador de partidas ganadas y perdidas.
+* ¿Por qué 7 intentos son suficientes si se juega de forma óptima? Relaciónalo con la búsqueda binaria del Ejercicio 5.
+
+2. **Juego de la vida (Conway)**
+
+* Representa un tablero de 10x10 como lista de listas con `0` (muerta) y `1` (viva).
+* Implementa una función que cuente los vecinos vivos de una celda, cuidando los bordes.
+* Calcula la siguiente generación en un **tablero nuevo** aplicando las reglas:
+  - Una celda viva con 2 o 3 vecinos vivos sobrevive; en otro caso muere.
+  - Una celda muerta con exactamente 3 vecinos vivos nace.
+* Muestra 5 generaciones usando `■` para viva y `·` para muerta.
+* Explica por qué es necesario usar un tablero nuevo y no modificar el actual mientras se recorre.
+
+---
+
+## Ejercicio 6 - Manejo de errores y archivos
+
+1. **Validación de entradas**
+
+* Toma el programa de inventario del Ejercicio 2.5 y protege la lectura de `precio` y `cantidad` con `try / except ValueError`.
+* Si el usuario ingresa un valor inválido, vuelve a pedírselo con un `while` hasta que sea correcto.
+* Usa `else` y `finally` en algún bloque `try` y explica cuándo se ejecuta cada uno.
+
+2. **Persistencia del estado**
+
+* Guarda el inventario en un archivo `inventario.csv` usando `open(..., "w")` y escribiendo línea por línea.
+* Crea una función que lea el archivo con `open(..., "r")`, recorra sus líneas y reconstruya la lista de diccionarios.
+* Maneja el caso en que el archivo no exista (`FileNotFoundError`) iniciando con un inventario vacío.
+* Repite el ejercicio usando el módulo `json` (`json.dump` / `json.load`). ¿Qué ventajas tiene frente al CSV?
+
 ---
 
 ## Retrospectiva
