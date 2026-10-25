@@ -12,17 +12,18 @@ Este laboratorio tiene como objetivo que los estudiantes fortalezcan sus conocim
    - No realice cambios directamente sobre el repositorio original.  
 
 2. **Estructura de carpetas**  
-   - Dentro de su fork, cree una carpeta llamada **`lab01/`**.  
+   - Dentro de su fork.
    - Cada ejercicio debe resolverse en un archivo **independiente** con el siguiente formato:  
      ```
-     lab01/ejercicio01.ipynb
-     lab01/ejercicio02.ipynb
+     ejercicio01.ipynb
+     ejercicio02.ipynb
      ...
      ```  
 
 3. **Resolución de ejercicios**  
    - Desarrolle los programas en el entorno de programacion [Google colab](https://colab.research.google.com/)
-   - Una vez finalizados, copie el código a los archivos `.ipynb` correspondientes en su repositorio.  
+   - Una vez finalizados, copie el código a los archivos `.ipynb` correspondientes en su repositorio.
+   - Se evaluará el avance en CLASE.  
    - Cada archivo debe contener:
      - La implementación de su solución.  
 
